@@ -1,28 +1,30 @@
 import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
 
 const messages = document.querySelector("main");
-const input = document.querySelector("input");
+const input = document.querySelector(".message");
+const uname = document.querySelector(".uname");
 
 const socket = io();
 
 const addMessage = (msg, isFromMe = false) => {
+  const { user, text } = msg;
   const box = document.createElement("div");
 
   if (isFromMe === true) {
     box.className = "me";
   }
 
-  box.innerText = msg;
+  box.innerText = `${user}: ${text}`;
   messages.append(box);
 };
 
-const sendMessage = (msg) => {
-  addMessage(msg, true);
-  socket.emit("message", { text: msg });
+const sendMessage = (msg, user) => {
+  addMessage({ user, text: msg }, true);
+  socket.emit("message", { user, text: msg });
 };
 
 socket.on("message", (msg) => {
-  addMessage(msg.text, false);
+  addMessage(msg, false);
 });
 
 input.addEventListener("keypress", (e) => {
@@ -31,7 +33,7 @@ input.addEventListener("keypress", (e) => {
       target: { value },
     } = e;
 
-    sendMessage(value);
+    sendMessage(value, uname.value);
     input.value = "";
   }
 });

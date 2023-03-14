@@ -29,6 +29,10 @@ footer {
   background-color: hsl(0, 0%, 90%);
 }
 
+footer > input:nth-child(1) {
+  width: 30%;
+}
+
 footer > input {
   width: 100%;
   padding: .5rem;
