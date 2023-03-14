@@ -3,8 +3,14 @@ import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
 const messages = document.querySelector("main");
 const input = document.querySelector(".message");
 const uname = document.querySelector(".uname");
+const emojis = document.querySelector('.emojis');
 
 const socket = io();
+
+emojis.addEventListener('input', () => {
+  input.value += emojis.value;
+  emojis.value = "";
+})
 
 const addMessage = (msg, isFromMe = false) => {
   const { user, text } = msg;
